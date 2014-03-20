@@ -11,39 +11,34 @@ import android.os.IBinder;
 
 public class HeadlineService extends Service {
 
-	// Tag used to identify the LiveCard in debugging logs.
+	// Tag used to identify the LiveCard in debugging logs
 	private static final String LIVE_CARD_TAG = "glassperiment";
 
-	private HeadlineRenderer mRenderer;
+	private HeadlineDrawer mCallback;
 	private TimelineManager mTimelineManager;
-	
-	// Cached instance of the LiveCard created by the publishCard() method.
 	private LiveCard mLiveCard;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
 		mTimelineManager = TimelineManager.from(this);
 	}
 
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if (mLiveCard == null) {
 			mLiveCard = mTimelineManager.createLiveCard(LIVE_CARD_TAG);
-			mRenderer = new HeadlineRenderer(this);
 			
-			mLiveCard.setDirectRenderingEnabled(true).getSurfaceHolder().addCallback(mRenderer);
+			mCallback = new HeadlineDrawer(this);
+            mLiveCard.setDirectRenderingEnabled(true).getSurfaceHolder().addCallback(mCallback);
+            
+            Intent menuIntent = new Intent(this, MenuActivity.class);
+            menuIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            mLiveCard.setAction(PendingIntent.getActivity(this, 0, menuIntent, 0));
 
-			Intent headlineCardIntent = new Intent(this, MainActivity.class);
-			headlineCardIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-			mLiveCard.setAction(PendingIntent.getActivity(this, 0, headlineCardIntent, 0));
-			mLiveCard.publish(PublishMode.REVEAL);
-
-			startActivity(headlineCardIntent);
-		}
-
-		return START_STICKY;
+            mLiveCard.publish(PublishMode.REVEAL);
+        }
+		
+        return START_STICKY;
 	}
 
 	@Override
@@ -55,8 +50,11 @@ public class HeadlineService extends Service {
 	@Override
 	public void onDestroy() {
 		if (mLiveCard != null && mLiveCard.isPublished()) {
+			if (mCallback != null) {
+                mLiveCard.getSurfaceHolder().removeCallback(mCallback);
+            }
+			
 			mLiveCard.unpublish();
-			mLiveCard.getSurfaceHolder().removeCallback(mRenderer);
 			mLiveCard = null;
 		}
 
