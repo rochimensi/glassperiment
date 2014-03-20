@@ -19,7 +19,7 @@
             android:required="true" />
 
         <activity
-            android:name="com.example.glassperiment.MainActivity">           
+            android:name="com.example.glassperiment.MenuActivity">           
         </activity>
         <service
             android:name="com.example.glassperiment.HeadlineService"
