@@ -15,8 +15,9 @@ public class HeadlineView extends FrameLayout {
         public void onChange();
     }
     
-    private final int mWhiteColor;
+    private final TextView mSourceView;
     private final TextView mDescriptionView;
+    private final TextView mMomentView;
     private ChangeListener mChangeListener;
     
 	public HeadlineView(Context context) {
@@ -24,8 +25,9 @@ public class HeadlineView extends FrameLayout {
 
         LayoutInflater.from(context).inflate(R.layout.headline, this);
 
+        mSourceView = (TextView) findViewById(R.id.source);
         mDescriptionView = (TextView) findViewById(R.id.description);
-        mWhiteColor = context.getResources().getColor(R.color.white);
+        mMomentView = (TextView) findViewById(R.id.moment);
 	}
 	
 	/**
@@ -40,10 +42,11 @@ public class HeadlineView extends FrameLayout {
      * 
      * @param description the description of the headline
      */
-	public void updateText(String description){
-    	mDescriptionView.setText(description);
-    	mDescriptionView.setTextColor(mWhiteColor);
-        
+	public void updateText(String source, String description, String moment){
+		mSourceView.setText(source);
+		mDescriptionView.setText(description);
+		mMomentView.setText(moment);
+
         if (mChangeListener != null) {
             mChangeListener.onChange();
         }

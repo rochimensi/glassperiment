@@ -7,11 +7,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="-12px"
-        android:orientation="horizontal" >
+        android:padding="@dimen/headline_padding"
+        android:orientation="vertical" >
+        <TextView
+            android:id="@+id/source"
+       		android:layout_width="wrap_content"
+       		android:layout_height="wrap_content" 
+       		android:textColor="@color/makingsense"
+       		android:textSize="@dimen/headline_source" />
         <TextView
             android:id="@+id/description"
        		android:layout_width="wrap_content"
-       		android:layout_height="wrap_content" />
+       		android:layout_height="wrap_content" 
+       		android:textColor="@color/white" 
+       		android:textSize="@dimen/headline_description" />
+        <TextView
+            android:id="@+id/moment"
+       		android:layout_width="wrap_content"
+       		android:layout_height="wrap_content"
+       		android:layout_marginTop="@dimen/headline_padding"
+       		android:textColor="@color/white" 
+       		android:textSize="@dimen/headline_moment" />
     </LinearLayout>
 </FrameLayout>

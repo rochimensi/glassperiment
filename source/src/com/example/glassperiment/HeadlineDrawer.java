@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 
@@ -107,7 +108,8 @@ public class HeadlineDrawer implements SurfaceHolder.Callback {
             	long frameStart = SystemClock.elapsedRealtime();
                 long frameLength = SystemClock.elapsedRealtime() - frameStart;
                 
-                mView.updateText("Glassperimenting..." + String.valueOf(frameStart));
+                //Log.v("test", "Glassperimenting..." + String.valueOf(frameStart));
+                mView.updateText("Making Sense", "Glassperimenting... " + String.valueOf(frameStart), "a few seconds ago");
                 
                 long sleepTime = FRAME_TIME_MILLIS - frameLength;
                 if (sleepTime > 0) {
